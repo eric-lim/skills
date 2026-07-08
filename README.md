@@ -24,7 +24,7 @@ The `/gate` command forces a strict 3-step sequence:
 
 ## 🔍 /okf-analyze
 
-The [/okf-analyze](https://github.com/eric-lim/skills/blob/main/okf/okf-analyze/SKILL.md) skill is an analytical auditor designed to review Open Knowledge Format (OKF) knowledge bundles for gaps, inconsistencies, and logical contradictions.
+The [/okf-analyze](https://github.com/eric-lim/skills/blob/main/okf/okf-analyze/SKILL.md) skill is an analytical auditor designed to review [Open Knowledge Format (OKF) specification](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) knowledge bundles for gaps, inconsistencies, and logical contradictions.
 
 ### Why Use It?
 * **Catches Inconsistencies:** Automatically flags nomenclature mismatches, duplicate concepts, and contradictory directory-level schemas.

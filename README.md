@@ -1,9 +1,6 @@
 ## Agent Skills
-- [Agent Skills](#agent-skills)
 - [🚧 /gate](#-gate)
-  - [Why Use It?](#why-use-it)
 - [🔍 /okf-analyze](#-okf-analyze)
-  - [Why Use It?](#why-use-it-1)
 
 ---
 

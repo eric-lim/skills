@@ -1,6 +1,6 @@
 ## 📌 List of Agent Skills
 * [🚧 /gate](#-gate)
-* [🔍 okf-analyze](#-okf-analyze)
+* [🔍 /okf-analyze](#-okf-analyze)
 
 ## 🚧 /gate
 

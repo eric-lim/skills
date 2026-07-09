@@ -1,6 +1,7 @@
 ---
 name: gate
 description: Halts execution to playback understanding and propose solutions for user approval before making changes.
+disable-model-invocation: true
 ---
 
 Strict-halt execution and follow this exact 3-step sequence:

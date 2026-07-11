@@ -22,7 +22,7 @@ Highly useful for complicated prompts where misinterpretation can lead to wasted
 
 The [/code-review](https://github.com/eric-lim/skills/blob/main/code-review/SKILL.md) skill is a multi-stage orchestration workflow designed to automate comprehensive, high-integrity code reviews on git branches and pull requests.
 
-By coordinating parallel specialized subagents (Style, Architecture, Specification) and local automated tests, this skill processes code changes through a multi-step sequence: setup and revision scoping, context gathering, parallel analysis, cross-subagent verification, and severity-calibrated synthesis into a final markdown report.
+It runs specialized subagents (Style, Architecture, Specification) and automated tests in parallel to analyze your changes, filter out false positives, and compile the findings into a single structured markdown report.
 
 Why Use It?
 * **Multi-Dimensional Audit**: Analyzes code quality simultaneously across styling guides, system architecture constraints, and functional specs.

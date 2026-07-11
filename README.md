@@ -26,7 +26,7 @@ It runs specialized subagents (Style, Architecture, Specification) and automated
 
 Why Use It?
 * **Multi-Dimensional Audit**: Analyzes code quality simultaneously across styling guides, system architecture constraints, and functional specs.
-* **Low False Positives**: Employs a verification subagent to filter out pre-existing legacy issues, auto-lint fixes, and compiler-checked errors.
+* **Minimize False Positives**: Employs a verification agent to actively filter out false positives and speculative warnings, leaving only real, actionable issues.
 * **Actionable Reports**: Delivers a clean, prioritized markdown report with a clear decision on whether to merge, highlighted code strengths, and categorized issue breakdowns.
 
 ---

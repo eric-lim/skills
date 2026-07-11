@@ -1,5 +1,6 @@
 ## Agent Skills
 - [🚧 /gate](#-gate)
+- [🚀 /code-review](#-code-review)
 - [🔍 /okf-analyze](#-okf-analyze)
 
 ---
@@ -14,6 +15,19 @@ Highly useful for complicated prompts where misinterpretation can lead to wasted
 * **Eliminates Rework:** Stops the generation of incorrect code or text based on misunderstood requirements.
 * **Ensures Alignment:** Guarantees a shared understanding of project goals and constraints up front.
 * **Exposes Ambiguity:** Prompts the AI to call out missing information or hidden trade-offs during the proposal phase.
+
+---
+
+🚀 /code-review
+
+The [/code-review](https://github.com/eric-lim/skills/blob/main/code-review/SKILL.md) skill is a multi-stage orchestration workflow designed to automate comprehensive, high-integrity code reviews on git branches and pull requests.
+
+By coordinating parallel specialized subagents (Style, Architecture, Specification) and local automated tests, this skill processes code changes through a multi-step sequence: setup and revision scoping, context gathering, parallel analysis, cross-subagent verification, and severity-calibrated synthesis into a final markdown report.
+
+Why Use It?
+* **Multi-Dimensional Audit**: Analyzes code quality simultaneously across styling guides, system architecture constraints, and functional specs.
+* **Low False Positives**: Employs a verification subagent to filter out pre-existing legacy issues, auto-lint fixes, and compiler-checked errors.
+* **Actionable Reports**: Delivers a clean, prioritized markdown report with a clear decision on whether to merge, highlighted code strengths, and categorized issue breakdowns.
 
 ---
 

@@ -18,7 +18,7 @@ Highly useful for complicated prompts where misinterpretation can lead to wasted
 
 ---
 
-🚀 /code-review
+## 🚀 /code-review
 
 The [/code-review](https://github.com/eric-lim/skills/blob/main/code-review/SKILL.md) skill is a multi-stage orchestration workflow designed to automate comprehensive, high-integrity code reviews on git branches and pull requests.
 

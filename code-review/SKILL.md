@@ -5,13 +5,6 @@ description: "Performs a multi-stage code review on git diffs and branch revisio
 
 This is a multi-stage workflow that coordinates several subagents and automated checks to perform a comprehensive code review.
 
-## Mandatory Rules
-> [!IMPORTANT]
-> The following rules are strict, mandatory, and MUST be followed without exception by the main orchestrator agent and all child subagents:
-> 
-> 1. **Read-Only Inspection:** The main orchestrator agent and all child subagents MUST NOT modify any existing source code files or documents under review. The review process is strictly read-only; all findings, suggested diffs, and feedback must be written only to the final generated review report.
-> 2. **Scope Constraint:** The main orchestrator agent and all child subagents MUST focus their review and findings strictly on modified or newly introduced code within the target git diff range. They must NOT report issues or formatting nits on unmodified legacy code or documents that are outside the scope of the diff.
-
 ### Model Definition Guidelines
 * **Fast Model:** Optimized for speed and lower cost (e.g., Claude Haiku, Gemini Flash, GPT mini).
 * **Reasoning Model:** Optimized for deep analytical tasks, logic verification, and complex audits (e.g., Claude Sonnet, Gemini Pro, GPT/GPT-o series).
@@ -19,8 +12,13 @@ This is a multi-stage workflow that coordinates several subagents and automated 
 ## Stage 1: Setup & Target Scoping
 1. **Log Stage Entry**: Print a line divider and the header: `"\n----------------------------------------\n🚀 [Stage 1: Setup & Target Scoping]\n"` to the standard output.
 2. **Identify Revision Target:**
-   - Resolve the comparison target branch (e.g. `main` or merge-base).
-   - If not specified, ask the user: "What branch or commit should I compare against? (Default: main)".
+   Resolve the comparison target using the following fallback chain without asking the user, unless all resolution steps fail:
+   - **Explicit Argument:** Check if a branch/commit was passed directly as an argument (e.g., `--target <branch>` or a positional parameter).
+   - **Upstream Tracking:** Check for the current branch's upstream tracking branch: `git rev-parse --abbrev-ref --symbolic-full-name @{u}`.
+   - **Default Remote/Local Branch:** Query the default branch of the repository (e.g., resolving `origin/HEAD` or checking if `main` or `master` exists locally or on remote).
+   - **Current Branch Branching Point:** If on a feature branch, find the merge-base with the default branch (`git merge-base <default-branch> HEAD`).
+   - **Same Branch Fallback:** If the current branch is already the default branch (e.g., `main`/`master`), default to `HEAD~1` or compare against unstaged/staged changes.
+   - **Interactive Fallback:** Only if all heuristics above fail to resolve a valid target, prompt the user: *"What branch or commit should I compare against? (Default: main)"*.
 3. **Verify Git Range:**
    - Run `git diff --stat <target>...HEAD` to verify changes exist.
    - If diff is empty, announce "No changes to review since <target>." and halt.
@@ -46,32 +44,27 @@ This is a multi-stage workflow that coordinates several subagents and automated 
    * Halt execution until the user validates the context list or overrides file paths.
 
 ## Stage 3: Parallel Review & Testing
-> [!IMPORTANT]
-> The orchestrator MUST delegate the Style, Architecture, and Specification reviews to three separate isolated subagent instances. The main orchestrator is strictly forbidden from executing these reviews inline within its own conversation or execution context.
-
-Launch three isolated subagents and run the automated test suite in parallel to minimize latency.
-
-**Crucial Rule**: Instruct all subagents to focus their findings strictly on modified or newly introduced code within the git diff range, avoiding style/design complaints about unmodified legacy code. All subagents must output findings using the standardized block schema (specifying File, Line Range using `L<start>-L<end>`, Severity, and Recommendation with a unified diff if applicable).
-
 1. **Log Stage Entry**: Print a line divider and the header: `"\n----------------------------------------\n⚡ [Stage 3: Parallel Review & Testing]\n"` to the standard output.
-2. **Style Subagent (Fast Model):**
-   - **Bypass Flag:** Skip execution via the `--no-style` flag.
-   - Prompt: Load from `./resources/subagents/style-subagent.md`.
-   - Input: Git diff, guidelines found (e.g., agents.md, CLAUDE.md), baseline Fowler smells.
-   - Task: Identify syntax rule violations, style deviations, and classic code smells in modified code, assigning `Important` or `Minor` severity.
-3. **Arch Subagent (Reasoning Model):**
-   - **Bypass Flag:** Skip execution via the `--no-arch` flag.
-   - Prompt: Load from `./resources/subagents/arch-subagent.md`.
-   - Input: Git diff.
-   - Task: Review high-level design decisions, performance bottlenecks, concurrency risks, security hazards, and system reliability in modified code, assigning `Critical`, `Important`, or `Minor` severity.
-4. **Spec Subagent (Reasoning Model):**
-   - **Bypass Flag:** Skip execution via the `--no-spec` flag.
-   - Prompt: Load from `./resources/subagents/spec-subagent.md`.
-   - Input: Git diff, spec/plan documents.
-   - Task: Review functional correctness, missing plan requirements, testing efficacy, production readiness, and scope creep in modified code, assigning `Critical`, `Important`, or `Minor` severity.
-5. **Automated Test Run:**
-   - **Bypass Flag:** Skip execution via the `--no-tests` flag.
-   - Task: Detect the test suite in the codebase (e.g., `npm test` for Node, `pytest` for Python) and execute it. Save all output logs for the verification phase in Stage 4.
+2. **Launch Parallel Audits**:
+   To minimize latency and prevent context contamination, the orchestrator MUST run the automated test suite and delegate the reviews to three separate, isolated subagent instances in parallel (do not execute inline):
+   - **Style Subagent (Fast Model):**
+     - **Bypass Flag:** `--no-style`
+     - **Prompt:** `./resources/subagents/style-subagent.md`
+     - **Input:** Git diff, resolved guidelines (e.g., CLAUDE.md, agents.md), and baseline smells.
+   - **Arch Subagent (Reasoning Model):**
+     - **Bypass Flag:** `--no-arch`
+     - **Prompt:** `./resources/subagents/arch-subagent.md`
+     - **Input:** Git diff.
+   - **Spec Subagent (Reasoning Model):**
+     - **Bypass Flag:** `--no-spec`
+     - **Prompt:** `./resources/subagents/spec-subagent.md`
+     - **Input:** Git diff, plan/spec documents.
+   - **Automated Test Run:**
+     - **Bypass Flag:** `--no-tests`
+     - **Task:** Detect and run tests (e.g., `npm test`, `pytest`). Save output logs.
+3. **Subagent Constraints:**
+   - **Scope Constraint:** Focus findings strictly on modified or newly introduced code within the git diff range, ignoring legacy code.
+   - **Output Format:** Output findings using the standardized block schema defined in each subagent's prompt file.
 
 ## Stage 4: Verification & Synthesis
 Run the Verification Subagent sequentially after Stage 3 parallel processes complete:

@@ -14,8 +14,9 @@ Your goal is to drastically increase the signal-to-noise ratio by filtering out 
    - If a subagent flagged a "Critical Bug Risk" and a test failed on that exact file/method: **Keep it and upgrade priority if necessary.**
    - If a subagent flagged a speculative "Logical Bug Risk" but all automated tests passed successfully: **Critically re-evaluate.** Downgrade the severity to 'Minor' or discard it entirely if it cannot be explicitly verified by looking at the diff.
 4. **Legacy Check**: Cross-reference the line ranges of every finding with the provided git diff. If a finding targets lines that are completely unmodified/whitespace changes from legacy code, **discard it instantly**.
-5. Do NOT modify any existing source code or files. Only provide feedback and suggested diffs in your output.
-6. Output the cleaned, filtered findings maintaining the strict block structure, preserving the primary subagent source:
+5. Calibrate or adjust severity classifications (Critical, Important, Minor) of the output findings strictly according to the [Severity Calibration Guide](../checklists/severity.md).
+6. Do NOT modify any existing source code or files. Only provide feedback and suggested diffs in your output.
+7. Output the cleaned, filtered findings maintaining the strict block structure, preserving the primary subagent source:
 
 ### Finding: [Brief description]
 - **File**: [Path to file]

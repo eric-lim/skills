@@ -7,7 +7,7 @@
 
 ## 🚧 /gate
 
-The [/gate](https://github.com/eric-lim/skills/blob/main/gate/SKILL.md) skill is a workflow guardrail designed to prevent an AI from rushing into executing tasks without proper validation. 
+The [/gate](skills/gate/SKILL.md) skill is a workflow guardrail designed to prevent an AI from rushing into executing tasks without proper validation. 
 
 Highly useful for complicated prompts where misinterpretation can lead to wasted time and tokens on reworks, this skill enforces a strict 3-step sequence: it halts the AI to **playback** its understanding, **propose** its planned solution, and seek explicit permission before changing files or writing large codeblocks.
 
@@ -20,20 +20,22 @@ Highly useful for complicated prompts where misinterpretation can lead to wasted
 
 ## 🚀 /code-review
 
-The [/code-review](https://github.com/eric-lim/skills/blob/main/code-review/SKILL.md) skill is a multi-stage orchestration workflow designed to automate comprehensive, high-integrity code reviews on git branches and pull requests.
+The [/code-review](skills/code-review/SKILL.md) skill is a multi-stage orchestration workflow designed to automate comprehensive, high-integrity code reviews on git branches and pull requests.
 
 It runs specialized subagents (Style, Architecture, Specification) and automated tests in parallel to analyze your changes, filter out false positives, and compile the findings into a single structured markdown report.
 
-Why Use It?
+### Why Use It?
 * **Multi-Dimensional Audit**: Analyzes code quality simultaneously across styling guides, system architecture constraints, and functional specs.
 * **Minimize False Positives**: Employs a verification agent to actively filter out false positives and speculative warnings, leaving only real, actionable issues.
 * **Actionable Reports**: Delivers a clean, prioritized markdown report with a clear decision on whether to merge, highlighted code strengths, and categorized issue breakdowns.
+
+*[Documentation](docs/code-review.md)*
 
 ---
 
 ## 🔍 /okf-analyze
 
-The [/okf-analyze](https://github.com/eric-lim/skills/blob/main/okf/okf-analyze/SKILL.md) skill is an analytical auditor designed to review [Open Knowledge Format (OKF) specification](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) knowledge bundles for gaps, inconsistencies, and logical contradictions. 
+The [/okf-analyze](skills/okf/okf-analyze/SKILL.md) skill is an analytical auditor designed to review [Open Knowledge Format (OKF) specification](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) knowledge bundles for gaps, inconsistencies, and logical contradictions. 
 
 It triggers an automated, multi-pass audit loop that maps the layout of the bundle, reviews content for structural or semantic rule violations, and runs a programmatic link check to validate internal paths and anchor tags.
 
